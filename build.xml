@@ -8,7 +8,7 @@
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
 <project name="SF2SpellGraphicManager" default="default" basedir=".">
-    <description>Builds, tests, and runs the project SF2SpellSSpriteManager</description>
+    <description>Builds, tests, and runs the project SF2SpellGraphicsManager</description>
     <import file="nbproject/build-impl.xml"/>
     
    <target name="package-for-store" depends="jar">
@@ -17,7 +17,7 @@
              minus the .jar extension. It should not have spaces.
              <property name="store.jar.name" value="MyJarName"/>
         -->
-        <property name="store.jar.name" value="SF2SpellSSpriteManager"/>
+        <property name="store.jar.name" value="SF2SpellGraphicsManager"/>
 
 
         <!-- don't edit below this line -->
