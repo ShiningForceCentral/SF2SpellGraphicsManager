@@ -35,7 +35,7 @@ public class DisassemblyManager {
             if(path.toFile().exists()){
                 byte[] data = Files.readAllBytes(path);
                 if(data.length>42){
-                    int numOfTiles = getNextWord(data, 0);
+                    int numOfTiles = getNextWord(data, 0);  //Incorrect (must be the decompressed size) but unused so who cares
                     byte[] colorData = new byte[6];
                     System.arraycopy(data, 2, colorData, 0, 6);
                     Color[] swapColors = PaletteDecoder.parsePalette(colorData);
@@ -74,7 +74,7 @@ public class DisassemblyManager {
             byte[] tilesBytes = StackGraphicsEncoder.getNewGraphicsFileBytes();
 
             byte[] newSpellGraphicFileBytes = new byte[tilesBytes.length + 8];
-            setWord(newSpellGraphicFileBytes,0,(short)0xFFFF);  //TODO How to get first byte
+            setWord(newSpellGraphicFileBytes,0,(short)(newSpellGraphicFileBytes.length));
             System.arraycopy(colorSwapBytes, 0, newSpellGraphicFileBytes, 2, colorSwapBytes.length);
             System.arraycopy(tilesBytes, 0, newSpellGraphicFileBytes, 8, tilesBytes.length);
 
