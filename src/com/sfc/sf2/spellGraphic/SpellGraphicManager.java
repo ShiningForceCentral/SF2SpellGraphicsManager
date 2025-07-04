@@ -81,7 +81,7 @@ public class SpellGraphicManager {
     private String getAbsoluteFilepath(String filepath) {
         String toolDir = System.getProperty("user.dir");
         Path toolPath = Paths.get(toolDir);
-        Path filePath = Path.of(filepath);
+        Path filePath = Paths.get(filepath);
         if (!filePath.isAbsolute())
             filePath = toolPath.resolve(filePath);
         
