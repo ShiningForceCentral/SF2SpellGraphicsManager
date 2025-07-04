@@ -69,12 +69,13 @@ public class DisassemblyManager {
             swapColors[0] = palette[9];
             swapColors[1] = palette[13];
             swapColors[2] = palette[14];
-            byte[] colorSwapBytes = PaletteEncoder.producePalette(swapColors);
+            PaletteEncoder.producePalette(swapColors);
+            byte[] colorSwapBytes = PaletteEncoder.getNewPaletteFileBytes();
             StackGraphicsEncoder.produceGraphics(spellGraphic.getTiles());
             byte[] tilesBytes = StackGraphicsEncoder.getNewGraphicsFileBytes();
 
             byte[] newSpellGraphicFileBytes = new byte[tilesBytes.length + 8];
-            setWord(newSpellGraphicFileBytes,0,(short)(newSpellGraphicFileBytes.length));
+            setWord(newSpellGraphicFileBytes,0,(short)(StackGraphicsEncoder.getNewGraphicsFileUncompressedBytes()));
             System.arraycopy(colorSwapBytes, 0, newSpellGraphicFileBytes, 2, colorSwapBytes.length);
             System.arraycopy(tilesBytes, 0, newSpellGraphicFileBytes, 8, tilesBytes.length);
 
@@ -110,7 +111,7 @@ public class DisassemblyManager {
         ByteBuffer bb = ByteBuffer.allocate(2);
         bb.order(ByteOrder.LITTLE_ENDIAN);
         bb.putShort(value);
-        data[cursor] = bb.get(0);
-        data[cursor+1] = bb.get(1);
+        data[cursor+1] = bb.get(0);
+        data[cursor] = bb.get(1);
     }
 }
