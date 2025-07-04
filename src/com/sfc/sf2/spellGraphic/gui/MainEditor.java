@@ -552,7 +552,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel21.setText("Palette file :");
 
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField10.setText("..\\battlescenebasepalette.bin");
+        jTextField10.setText("..\\..\\tech\\basepalette.bin");
 
         jButton26.setText("File...");
         jButton26.addActionListener(new java.awt.event.ActionListener() {

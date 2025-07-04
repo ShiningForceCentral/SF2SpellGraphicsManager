@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
@@ -31,7 +30,7 @@ public class SpellGraphicLayout extends JPanel {
         g.drawImage(buildImage(), 0, 0, this);       
     }
     
-    public BufferedImage buildImage(){
+    public BufferedImage buildImage() {
         BufferedImage image = buildImage(spellGraphic, false);
         image = resize(image);
         setSize(image.getWidth(), image.getHeight());
@@ -39,17 +38,16 @@ public class SpellGraphicLayout extends JPanel {
         return image;
     }
     
-    public static BufferedImage buildImage(SpellGraphic spellGraphic, boolean pngExport){
+    public static BufferedImage buildImage(SpellGraphic spellGraphic, boolean pngExport) {
         Tile[] tiles = spellGraphic.getTiles();
         int imageWidth = tilesPerRow;
         int imageHeight = (tiles.length / tilesPerRow);
         BufferedImage image;
-        IndexColorModel icm = buildIndexColorModel(spellGraphic.getPalette());
-        image = new BufferedImage(imageWidth*8, imageHeight*8, BufferedImage.TYPE_BYTE_BINARY, icm);
+        image = new BufferedImage(imageWidth*8, imageHeight*8, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = image.getGraphics();
         for (int x = 0; x < imageWidth; x++) {
             for (int y = 0; y < imageHeight; y++) {
-                graphics.drawImage(tiles[x+y*tilesPerRow].getImage(), x*8, y*8, null);
+                graphics.drawImage(tiles[x+y*tilesPerRow].getIndexedColorImage(), x*8, y*8, null);
             }
         }
         graphics.dispose();
@@ -74,23 +72,7 @@ public class SpellGraphicLayout extends JPanel {
         graphics.dispose();
     }
     
-    private static IndexColorModel buildIndexColorModel(Color[] colors){
-        byte[] reds = new byte[16];
-        byte[] greens = new byte[16];
-        byte[] blues = new byte[16];
-        byte[] alphas = new byte[16];
-        for(int i=0;i<16;i++){
-            reds[i] = (byte)colors[i].getRed();
-            greens[i] = (byte)colors[i].getGreen();
-            blues[i] = (byte)colors[i].getBlue();
-            alphas[i] = (byte)0xFF;
-        }
-        alphas[0] = (byte)0;
-        IndexColorModel icm = new IndexColorModel(4,16,reds,greens,blues,alphas);
-        return icm;
-    }
-    
-    private BufferedImage resize(BufferedImage image){
+    private BufferedImage resize(BufferedImage image) {
         BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
         Graphics g = newImage.getGraphics();
         g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
