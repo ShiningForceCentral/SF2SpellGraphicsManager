@@ -40,13 +40,18 @@ public class SpellGraphicLayout extends JPanel {
     
     public static BufferedImage buildImage(SpellGraphic spellGraphic, boolean pngExport) {
         Tile[] tiles = spellGraphic.getTiles();
+        int imageHeight = (tiles.length/tilesPerRow);
+        if(tiles.length%tilesPerRow!=0){
+            imageHeight++;
+        }
         int imageWidth = tilesPerRow;
-        int imageHeight = (tiles.length / tilesPerRow);
         BufferedImage image;
         image = new BufferedImage(imageWidth*8, imageHeight*8, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = image.getGraphics();
-        for (int x = 0; x < imageWidth; x++) {
-            for (int y = 0; y < imageHeight; y++) {
+        for (int y = 0; y < imageHeight; y++) {
+            for (int x = 0; x < imageWidth; x++) {
+                if (x+y*tilesPerRow >= tiles.length)
+                    break;
                 graphics.drawImage(tiles[x+y*tilesPerRow].getIndexedColorImage(), x*8, y*8, null);
             }
         }
