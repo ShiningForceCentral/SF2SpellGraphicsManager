@@ -8,6 +8,7 @@ package com.sfc.sf2.spellGraphic.gui;
 import com.sfc.sf2.spellGraphic.SpellGraphic;
 import com.sfc.sf2.spellGraphic.SpellGraphicManager;
 import com.sfc.sf2.spellGraphic.layout.SpellGraphicLayout;
+import com.sfc.sf2.graphics.Tile;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.File;
@@ -1010,6 +1011,11 @@ public class MainEditor extends javax.swing.JFrame {
         if (spellGraphic != null) {
             if (!spellGraphic.getPalette()[index].equals(newColor)) {
                 spellGraphic.getPalette()[index] = newColor;
+                Tile[] tiles = spellGraphic.getTiles();
+                for (int i = 0; i < tiles.length; i++) {
+                    tiles[i].clearIndexedColorImage();
+                    tiles[i].generateIcm();
+                }
                 spellGraphicLayout.revalidate();
                 spellGraphicLayout.repaint();
             }
