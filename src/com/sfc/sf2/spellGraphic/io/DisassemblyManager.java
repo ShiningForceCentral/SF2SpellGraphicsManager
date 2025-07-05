@@ -35,7 +35,6 @@ public class DisassemblyManager {
             if(path.toFile().exists()){
                 byte[] data = Files.readAllBytes(path);
                 if(data.length>42){
-                    int numOfTiles = getNextWord(data, 0);  //Incorrect (must be the decompressed size) but unused so who cares
                     byte[] colorData = new byte[6];
                     System.arraycopy(data, 2, colorData, 0, 6);
                     Color[] swapColors = PaletteDecoder.parsePalette(colorData);

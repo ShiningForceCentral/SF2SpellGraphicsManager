@@ -7,8 +7,6 @@ package com.sfc.sf2.spellGraphic;
 
 import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.spellGraphic.io.DisassemblyManager;
-import com.sfc.sf2.spellGraphic.io.PngManager;
-import com.sfc.sf2.spellGraphic.io.GifManager;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
 import java.nio.file.Path;
@@ -47,14 +45,20 @@ public class SpellGraphicManager {
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importPng() - Importing PNG ...");
         filepath = getAbsoluteFilepath(filepath);
         importDefaultPalette(defaultPalettePath);
-        spellGraphic = PngManager.importPng(filepath, defaultPalette);
+        graphicsManager.importPng(filepath);
+        spellGraphic = new SpellGraphic();
+        spellGraphic.setTiles(graphicsManager.getTiles());
+        Color[] palette = spellGraphic.getTiles()[0].getPalette();
+        adjustImportedPalette(defaultPalette, palette);
+        spellGraphic.setPalette(palette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importPng() - PNG imported.");
     }
     
-    public void exportPng(String filepath) {
+    public void exportPng(String filepath, int tilesPerRow) {
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.exportPng() - Exporting PNG ...");
         filepath = getAbsoluteFilepath(filepath);
-        PngManager.exportPng(spellGraphic, filepath);
+        graphicsManager.setTiles(spellGraphic.getTiles());
+        graphicsManager.exportPng(filepath, tilesPerRow);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.exportPng() - PNG exported.");       
     }
         
@@ -62,20 +66,32 @@ public class SpellGraphicManager {
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importGif() - Importing GIF ...");
         filepath = getAbsoluteFilepath(filepath);
         importDefaultPalette(defaultPalettePath);
-        spellGraphic = GifManager.importGif(filepath, defaultPalette);
+        graphicsManager.importGif(filepath);
+        spellGraphic = new SpellGraphic();
+        spellGraphic.setTiles(graphicsManager.getTiles());
+        Color[] palette = spellGraphic.getTiles()[0].getPalette();
+        adjustImportedPalette(defaultPalette, palette);
+        spellGraphic.setPalette(palette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importGif() - GIF imported.");
     }
     
-    public void exportGif(String filepath) {
+    public void exportGif(String filepath, int tilesPerRow) {
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.exportGif() - Exporting GIF ...");
-        filepath = getAbsoluteFilepath(filepath);
-        GifManager.exportGif(spellGraphic, filepath);
+        graphicsManager.setTiles(spellGraphic.getTiles());
+        graphicsManager.exportGif(filepath, tilesPerRow);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.exportGif() - GIF exported.");       
     }
     
     private void importDefaultPalette(String palettePath) {        
         paletteManager.importDisassembly(palettePath);
         defaultPalette = paletteManager.getPalette();
+    }
+    
+    private static void adjustImportedPalette(Color[] defaultPalette, Color[] importedPalette) {
+        for (int i = 0; i < defaultPalette.length; i++) {
+            if (i != 9 && i != 13 && i != 14)
+                importedPalette[i] = defaultPalette[i];
+        }
     }
     
     private String getAbsoluteFilepath(String filepath) {
