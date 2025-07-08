@@ -7,7 +7,9 @@ package com.sfc.sf2.spellGraphic.io;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
+import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
 import com.sfc.sf2.palette.graphics.PaletteDecoder;
+import com.sfc.sf2.palette.graphics.PaletteEncoder;
 import com.sfc.sf2.spellGraphic.InvocationGraphic;
 import java.awt.Color;
 import java.nio.ByteBuffer;
@@ -78,7 +80,52 @@ public class InvocationDisassemblyManager {
     public static void exportDisassembly(InvocationGraphic invocationGraphic, String filepath){
         System.out.println("com.sfc.sf2.spellGraphic.io.InvocationDisassemblyManager.exportDisassembly() - Exporting disassembly ...");
         try {
-            //TODO
+                short unknown1 = invocationGraphic.getUnknown1();
+                short unknown2 = invocationGraphic.getUnknown2();
+                short unknown3 = invocationGraphic.getUnknown3();
+                
+                Color[] palette = invocationGraphic.getPalette();
+                byte[] paletteBytes;
+                PaletteEncoder.producePalette(palette);
+                paletteBytes = PaletteEncoder.getNewPaletteFileBytes();
+                short paletteOffset = (short)(invocationGraphic.getFrames().length*2 + 2);
+                
+                Tile[][] frames = invocationGraphic.getFrames();
+                byte[][] frameBytes = new byte[frames.length][];
+                short[] frameOffsets = new short[frames.length];
+                int totalFramesSize = 0;
+                for (int i = 0; i < frames.length; i++) {
+                    StackGraphicsEncoder.produceGraphics(frames[i]);
+                    frameBytes[i] = StackGraphicsEncoder.getNewGraphicsFileBytes();
+                    if (i == 0) {
+                        frameOffsets[i] = (short)(frames.length*2 + 32);
+                    } else {
+                        int target = frameOffsets[i-1] + 6 + (i-1)*2 + frameBytes[i-1].length;
+                        int offsetLocation = 6 + i*2;
+                        frameOffsets[i] = (short)((target - offsetLocation)&0xFFFF);
+                    }
+                    System.out.println("Frame "+i+" length="+frameBytes[i].length+", offset="+frameOffsets[i]);
+                    totalFramesSize += frameBytes[i].length;
+                }
+                
+                int totalSize = 8 + frames.length * 2 + palette.length * 32 + totalFramesSize;
+                byte[] newBattleSpriteFileBytes = new byte[totalSize];
+                setWord(newBattleSpriteFileBytes, 0, unknown1);
+                setWord(newBattleSpriteFileBytes, 2, unknown2);
+                setWord(newBattleSpriteFileBytes, 4, unknown3);
+                setWord(newBattleSpriteFileBytes, 6, paletteOffset);
+                for(int i=0;i<frameOffsets.length;i++){
+                    setWord(newBattleSpriteFileBytes, 8 + i*2, frameOffsets[i]);
+                }
+                System.arraycopy(paletteBytes, 0, newBattleSpriteFileBytes, 6 + paletteOffset, 32);
+                for (int i = 0; i < frameBytes.length; i++) {
+                    System.out.println("Writing frame "+i+" with length="+frameBytes[i].length+" at offset="+(int)(frameOffsets[i]+8 + i*2));
+                    System.arraycopy(frameBytes[i], 0, newBattleSpriteFileBytes, frameOffsets[i]+8 + i*2, frameBytes[i].length);
+                }
+                Path graphicsFilePath = Paths.get(filepath);
+                Files.write(graphicsFilePath,newBattleSpriteFileBytes);
+                System.out.println(newBattleSpriteFileBytes.length + " bytes into " + graphicsFilePath);
+            
         } catch (Exception ex) {
             Logger.getLogger(SpellDisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
