@@ -1076,7 +1076,7 @@
                                             <Component class="javax.swing.JTextField" name="jTextField17">
                                               <Properties>
                                                 <Property name="horizontalAlignment" type="int" value="11"/>
-                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005capollo.png" containsInvalidXMLChars="true"/>
+                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005cnewInvocation" containsInvalidXMLChars="true"/>
                                               </Properties>
                                             </Component>
                                             <Component class="javax.swing.JButton" name="jButton23">
@@ -1163,7 +1163,7 @@
                                             <Component class="javax.swing.JTextField" name="jTextField18">
                                               <Properties>
                                                 <Property name="horizontalAlignment" type="int" value="11"/>
-                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005capollo.png" containsInvalidXMLChars="true"/>
+                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005cnewInvocation" containsInvalidXMLChars="true"/>
                                               </Properties>
                                             </Component>
                                             <Component class="javax.swing.JButton" name="jButton25">
@@ -1383,7 +1383,7 @@
                                             <Component class="javax.swing.JTextField" name="jTextField21">
                                               <Properties>
                                                 <Property name="horizontalAlignment" type="int" value="11"/>
-                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005cnewInvocation.png" containsInvalidXMLChars="true"/>
+                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005cnewInvocation" containsInvalidXMLChars="true"/>
                                               </Properties>
                                             </Component>
                                             <Component class="javax.swing.JButton" name="jButton32">
@@ -1471,7 +1471,7 @@
                                             <Component class="javax.swing.JTextField" name="jTextField22">
                                               <Properties>
                                                 <Property name="horizontalAlignment" type="int" value="11"/>
-                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005cnewInvocation.gif" containsInvalidXMLChars="true"/>
+                                                <Property name="text" type="java.lang.String" value=".\u005cinvocations\u005cnewInvocation" containsInvalidXMLChars="true"/>
                                               </Properties>
                                             </Component>
                                             <Component class="javax.swing.JButton" name="jButton34">

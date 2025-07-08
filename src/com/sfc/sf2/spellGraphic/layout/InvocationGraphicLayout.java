@@ -42,39 +42,17 @@ public class InvocationGraphicLayout extends JPanel {
     public static BufferedImage buildImage(InvocationGraphic invocationGraphic, boolean pngExport) {
         
         int frames = invocationGraphic.getFrames().length;
-        int imageWidth = 4*4*8;
-        int imageHeight = frames*2*4*8;
+        int imageWidth = 16*8;
+        int imageHeight = frames*8*8;
         BufferedImage image;
         image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = image.getGraphics();
         for(int f = 0; f < frames; f++) {
-            /*
-                1  5  9 13 49 53                  
-                2  6 10 14 50  .                  
-                3  7 11 15 51  .                  
-                4  8 12 16 52  .                  
-               17 21 25 29  
-               18 22 26 30
-               19 23 27 31
-               20 24 28 32
-               33 37 41 45                  . 141
-               34 38 42 46                  . 142
-               35 39 43 47                  . 143
-               36 40 44 48                140 144
-            */
             Tile[] frameTiles = invocationGraphic.getFrames()[f];
-            int index = 0;
-            for(int blockColumn = 0; blockColumn < 4; blockColumn++) {
-                for(int blockRow = 0; blockRow < 2; blockRow++) {
-                    for(int tileColumn = 0; tileColumn < 4; tileColumn++) {
-                        for(int tileRow = 0; tileRow < 4; tileRow++) {
-                            int x = (blockColumn*4+tileColumn)*8;
-                            int y = (f*2*4+blockRow*4+tileRow)*8;
-                            graphics.drawImage(frameTiles[index].getIndexedColorImage(), x, y, null);
-                            index++;
-                        }
-                    }
-                }
+            for(int t = 0; t < frameTiles.length; t++) {
+                int x = (t%16)*8;
+                int y = (f*8 + t/16)*8;
+                graphics.drawImage(frameTiles[t].getIndexedColorImage(), x, y, null);
             }
         }
         graphics.dispose();

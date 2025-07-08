@@ -735,7 +735,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel20.setText("File :");
 
         jTextField17.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField17.setText(".\\invocations\\apollo.png");
+        jTextField17.setText(".\\invocations\\newInvocation");
 
         jButton23.setText("File...");
         jButton23.addActionListener(new java.awt.event.ActionListener() {
@@ -795,7 +795,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel23.setText("File :");
 
         jTextField18.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField18.setText(".\\invocations\\apollo.png");
+        jTextField18.setText(".\\invocations\\newInvocation");
 
         jButton25.setText("File...");
         jButton25.addActionListener(new java.awt.event.ActionListener() {
@@ -930,7 +930,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel28.setText("File :");
 
         jTextField21.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField21.setText(".\\invocations\\newInvocation.png");
+        jTextField21.setText(".\\invocations\\newInvocation");
 
         jButton32.setText("File...");
         jButton32.addActionListener(new java.awt.event.ActionListener() {
@@ -988,7 +988,7 @@ public class MainEditor extends javax.swing.JFrame {
         jLabel30.setText("File :");
 
         jTextField22.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextField22.setText(".\\invocations\\newInvocation.gif");
+        jTextField22.setText(".\\invocations\\newInvocation");
 
         jButton34.setText("File...");
         jButton34.addActionListener(new java.awt.event.ActionListener() {
@@ -1539,6 +1539,7 @@ public class MainEditor extends javax.swing.JFrame {
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         spellGraphicManager.clearData();
         invocationGraphicManager.importPng(jTextField17.getText(), jTextField10.getText());
+        updateSpellPanel();
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
@@ -1548,6 +1549,7 @@ public class MainEditor extends javax.swing.JFrame {
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
         spellGraphicManager.clearData();
         invocationGraphicManager.importGif(jTextField18.getText(), jTextField10.getText());
+        updateSpellPanel();
     }//GEN-LAST:event_jButton29ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

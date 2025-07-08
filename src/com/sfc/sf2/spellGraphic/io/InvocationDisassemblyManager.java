@@ -61,7 +61,8 @@ public class InvocationDisassemblyManager {
                         int dataLength = (i == frameOffsets.length-1) ? data.length-frameOffsets[i] : frameOffsets[i+1] - frameOffsets[i];
                         byte[] tileData = new byte[dataLength];
                         System.arraycopy(data, frameOffset, tileData, 0, dataLength);
-                        frameList[i] = new StackGraphicsDecoder().decodeStackGraphics(tileData, palette);
+                        Tile[] frame = new StackGraphicsDecoder().decodeStackGraphics(tileData, palette);
+                        frameList[i] = ReorderTilesSequentially(frame);
                         System.out.println("Frame "+i+" length="+dataLength+", offset="+frameOffset+", tiles="+frameList[i].length);
                     }
                     invocationGraphic.setFrames(frameList);
@@ -95,7 +96,8 @@ public class InvocationDisassemblyManager {
                 short[] frameOffsets = new short[frames.length];
                 int totalFramesSize = 0;
                 for (int i = 0; i < frames.length; i++) {
-                    StackGraphicsEncoder.produceGraphics(frames[i]);
+                    Tile[] tiles = ReorderTilesForDisasssembly(frames[i]);
+                    StackGraphicsEncoder.produceGraphics(tiles);
                     frameBytes[i] = StackGraphicsEncoder.getNewGraphicsFileBytes();
                     if (i == 0) {
                         frameOffsets[i] = (short)(frames.length*2 + 32);
@@ -132,6 +134,41 @@ public class InvocationDisassemblyManager {
             System.out.println(ex);
         }  
         System.out.println("com.sfc.sf2.spellGraphic.io.InvocationDisassemblyManager.exportDisassembly() - Disassembly exported.");        
+    }
+    
+    private static Tile[] ReorderTilesSequentially(Tile[] tiles) {
+        /* Disassembly tiles are stored in 4x4 chunks (top-bottom, left-right)
+            1  5  9 13 33 37                  
+            2  6 10 14 34  .                  
+            3  7 11 15 35  .                  
+            4  8 12 16 36  .                  
+           17 21 25 29                  . 125
+           18 22 26 30                  . 126
+           19 23 27 31                  . 127
+           20 24 28 32                124 128
+        */
+        Tile[] newTiles = new Tile[tiles.length];
+        for (int i = 0; i < tiles.length; i++) {
+            int blockColumn = (i/4) % 4;
+            int blockRow = i/64;
+            int tileColumn = i%4;
+            int tileRow = (i/16) % 4;
+            newTiles[i] = tiles[blockColumn*32 + blockRow*16 + tileColumn*4 + tileRow];
+        }
+        return newTiles;
+    }
+    
+    private static Tile[] ReorderTilesForDisasssembly(Tile[] tiles) {
+        
+        Tile[] newTiles = new Tile[tiles.length];
+        for (int i = 0; i < tiles.length; i++) {
+            int blockColumn = (i/4) % 4;
+            int blockRow = i/64;
+            int tileColumn = i%4;
+            int tileRow = (i/16) % 4;
+            newTiles[blockColumn*32 + blockRow*16 + tileColumn*4 + tileRow] = tiles[i];
+        }
+        return newTiles;
     }
     
     private static short getNextWord(byte[] data, int cursor){
