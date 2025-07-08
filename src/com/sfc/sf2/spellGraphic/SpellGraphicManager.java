@@ -6,7 +6,7 @@
 package com.sfc.sf2.spellGraphic;
 
 import com.sfc.sf2.graphics.GraphicsManager;
-import com.sfc.sf2.spellGraphic.io.DisassemblyManager;
+import com.sfc.sf2.spellGraphic.io.SpellDisassemblyManager;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
 import java.nio.file.Path;
@@ -27,17 +27,14 @@ public class SpellGraphicManager {
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importDisassembly() - Importing disassembly ...");
         filepath = getAbsoluteFilepath(filepath);
         importDefaultPalette(defaultPalettePath);
-        spellGraphic = DisassemblyManager.importDisassembly(filepath, defaultPalette);
-        if (spellGraphic.getTiles() != null && spellGraphic.getTiles().length > 0) {
-            graphicsManager.setTiles(spellGraphic.getTiles());
-        }
+        spellGraphic = SpellDisassemblyManager.importDisassembly(filepath, defaultPalette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importDisassembly() - Disassembly imported.");
     }
     
     public void exportDisassembly(String filepath) {
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importDisassembly() - Exporting disassembly ...");
         filepath = getAbsoluteFilepath(filepath);
-        DisassemblyManager.exportDisassembly(spellGraphic, filepath);
+        SpellDisassemblyManager.exportDisassembly(spellGraphic, filepath);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importDisassembly() - Disassembly exported.");        
     }   
         
@@ -102,6 +99,11 @@ public class SpellGraphicManager {
             filePath = toolPath.resolve(filePath);
         
         return filePath.toString();
+    }
+    
+    public void clearData() {
+        defaultPalette = null;
+        spellGraphic = null;
     }
 
     public SpellGraphic getSpellGraphic() {

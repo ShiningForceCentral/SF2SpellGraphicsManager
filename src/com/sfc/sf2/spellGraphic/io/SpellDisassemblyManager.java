@@ -24,13 +24,13 @@ import java.util.logging.Logger;
  *
  * @author TiMMy
  */
-public class DisassemblyManager {
+public class SpellDisassemblyManager {
     
     public static SpellGraphic importDisassembly(String filepath, Color[] defaultPalette){
-        System.out.println("com.sfc.sf2.spellGraphic.io.DisassemblyManager.importDisassembly() - Importing disassembly file ...");
+        System.out.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.importDisassembly() - Importing disassembly file ...");
         
         SpellGraphic spellGraphic = new SpellGraphic();
-        try{
+        try {
             Path path = Paths.get(filepath);
             if(path.toFile().exists()){
                 byte[] data = Files.readAllBytes(path);
@@ -49,20 +49,20 @@ public class DisassemblyManager {
                     spellGraphic.setPalette(palette);
                     spellGraphic.setTiles(tiles);
                 }else{
-                    System.out.println("com.sfc.sf2.spellGraphic.io.DisassemblyManager.parseGraphics() - File ignored because of too small length (must be a dummy file) " + data.length + " : " + filepath);
+                    System.out.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.parseGraphics() - File ignored because of too small length (must be a dummy file) " + data.length + " : " + filepath);
                 }
             }            
         }catch(Exception e){
-             System.err.println("com.sfc.sf2.spellGraphic.io.DisassemblyManager.parseGraphics() - Error while parsing graphics data : "+e);
+             System.err.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.parseGraphics() - Error while parsing graphics data : "+e);
              e.printStackTrace();
         }    
-        System.out.println("com.sfc.sf2.spellGraphic.io.DisassemblyManager.importDisassembly() - Disassembly imported.");
+        System.out.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.importDisassembly() - Disassembly imported.");
         return spellGraphic;
     }
     
     public static void exportDisassembly(SpellGraphic spellGraphic, String filepath){
-        System.out.println("com.sfc.sf2.spellGraphic.io.DisassemblyManager.exportDisassembly() - Exporting disassembly ...");
-        try{
+        System.out.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.exportDisassembly() - Exporting disassembly ...");
+        try {
             Color[] palette = spellGraphic.getPalette();
             Color[] swapColors = new Color[3];
             swapColors[0] = palette[9];
@@ -82,28 +82,11 @@ public class DisassemblyManager {
             Files.write(graphicsFilePath,newSpellGraphicFileBytes);
             System.out.println(newSpellGraphicFileBytes.length + " bytes into " + graphicsFilePath);
         } catch (Exception ex) {
-            Logger.getLogger(DisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SpellDisassemblyManager.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             System.out.println(ex);
         }  
-        System.out.println("com.sfc.sf2.spellGraphic.io.DisassemblyManager.exportDisassembly() - Disassembly exported.");        
-    }     
-    
-    private static short getNextWord(byte[] data, int cursor){
-        ByteBuffer bb = ByteBuffer.allocate(2);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        bb.put(data[cursor+1]);
-        bb.put(data[cursor]);
-        short s = bb.getShort(0);
-        return s;
-    }
-    
-    private static byte getNextByte(byte[] data, int cursor){
-        ByteBuffer bb = ByteBuffer.allocate(1);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        bb.put(data[cursor]);
-        byte b = bb.get(0);
-        return b;
+        System.out.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.exportDisassembly() - Disassembly exported.");        
     }
     
     private static void setWord(byte[] data, int cursor, short value){
