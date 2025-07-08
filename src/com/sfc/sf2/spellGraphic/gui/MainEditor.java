@@ -1511,6 +1511,7 @@ public class MainEditor extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         spellGraphicLayout.setDisplaySize(jComboBox1.getSelectedIndex()+1);
         invocationGraphicLayout.setDisplaySize(jComboBox1.getSelectedIndex()+1);
+        repaintTilesPanel();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
@@ -1520,6 +1521,7 @@ public class MainEditor extends javax.swing.JFrame {
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         spellGraphicLayout.setShowGrid(jCheckBox1.isSelected());
         invocationGraphicLayout.setShowGrid(jCheckBox1.isSelected());
+        repaintTilesPanel();
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
@@ -1587,7 +1589,7 @@ public class MainEditor extends javax.swing.JFrame {
         Color returnCol = jColorChooser1.showDialog(this, "Color 14", jPanelColor14.getBackground(), false);
         if (returnCol != null) {
             jPanelColor14.setBackground(returnCol);
-            UpdateSpellPaletteColor(14, returnCol);
+            updateSpellPaletteColor(14, returnCol);
         }
     }//GEN-LAST:event_jPanelColor14MouseClicked
 
@@ -1595,7 +1597,7 @@ public class MainEditor extends javax.swing.JFrame {
         Color returnCol = jColorChooser1.showDialog(this, "Color 13", jPanelColor13.getBackground(), false);
         if (returnCol != null) {
             jPanelColor13.setBackground(returnCol);
-            UpdateSpellPaletteColor(13, returnCol);
+            updateSpellPaletteColor(13, returnCol);
         }
     }//GEN-LAST:event_jPanelColor13MouseClicked
 
@@ -1603,7 +1605,7 @@ public class MainEditor extends javax.swing.JFrame {
         Color returnCol = jColorChooser1.showDialog(this, "Color 9", jPanelColor9.getBackground(), false);
         if (returnCol != null) {
             jPanelColor9.setBackground(returnCol);
-            UpdateSpellPaletteColor(9, returnCol);
+            updateSpellPaletteColor(9, returnCol);
         }
     }//GEN-LAST:event_jPanelColor9MouseClicked
 
@@ -1640,8 +1642,6 @@ public class MainEditor extends javax.swing.JFrame {
             jPanel2.add(spellGraphicLayout);
             spellGraphicLayout.setSpellGraphic(spellGraphicManager.getSpellGraphic());
             spellGraphicLayout.setDisplaySize(jComboBox1.getSelectedIndex()+1);
-            spellGraphicLayout.revalidate();
-            spellGraphicLayout.repaint();
             SpellGraphic spellGraphic = spellGraphicLayout.getSpellGraphic();
             if (spellGraphic != null) {
                 jPanelColor9.setBackground(spellGraphic.getPalette()[9]);
@@ -1656,8 +1656,6 @@ public class MainEditor extends javax.swing.JFrame {
             jPanel2.add(invocationGraphicLayout);
             invocationGraphicLayout.setInvocationGraphic(invocationGraphicManager.getInvocationGraphic());
             invocationGraphicLayout.setDisplaySize(jComboBox1.getSelectedIndex()+1);
-            invocationGraphicLayout.revalidate();
-            invocationGraphicLayout.repaint();
             InvocationGraphic invocationGraphic = invocationGraphicLayout.getInvocationGraphic();
             if (invocationGraphic != null) {
                 jSpinner2.setValue(invocationGraphic.getUnknown1());
@@ -1669,9 +1667,15 @@ public class MainEditor extends javax.swing.JFrame {
             jPanel11.revalidate();
             jPanel11.repaint();
         }
+        repaintTilesPanel();
     }
     
-    private void UpdateSpellPaletteColor(int index, Color newColor) {
+    private void repaintTilesPanel() {
+        jPanel2.revalidate();
+        jPanel2.repaint();
+    }
+    
+    private void updateSpellPaletteColor(int index, Color newColor) {
         SpellGraphic spellGraphic = spellGraphicLayout.getSpellGraphic();
         if (spellGraphic != null) {
             if (!spellGraphic.getPalette()[index].equals(newColor)) {
