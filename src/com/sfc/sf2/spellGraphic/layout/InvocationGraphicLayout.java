@@ -7,12 +7,12 @@ package com.sfc.sf2.spellGraphic.layout;
 
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.spellGraphic.InvocationGraphic;
-import com.sfc.sf2.spellGraphic.SpellGraphic;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import javax.swing.JPanel;
 
 /**
@@ -21,6 +21,7 @@ import javax.swing.JPanel;
  */
 public class InvocationGraphicLayout extends JPanel {
     private int displaySize;
+    private boolean showGrid = true;
     
     private InvocationGraphic invocationGraphic;
     
@@ -34,6 +35,7 @@ public class InvocationGraphicLayout extends JPanel {
         BufferedImage image = buildImage(invocationGraphic, false);
         image = resize(image);
         setSize(image.getWidth(), image.getHeight());
+        if (showGrid) { drawGrid(image); }
         return image;
     }
     
@@ -79,6 +81,27 @@ public class InvocationGraphicLayout extends JPanel {
         return image;
     }
     
+    private void drawGrid(BufferedImage image) {
+        Graphics2D graphics = (Graphics2D)image.getGraphics();
+        graphics.setColor(Color.BLACK);
+        graphics.setStroke(new BasicStroke(1));
+        int x = 0;
+        int y = 0;
+        while (x < image.getWidth()) {
+            graphics.drawLine(x, 0, x, image.getHeight());
+            x += 8*displaySize;
+        }
+        graphics.setStroke(new BasicStroke(3));
+        graphics.drawLine(x-1, 0, x-1, image.getHeight());
+        while (y < image.getHeight()) {
+            graphics.setStroke(new BasicStroke((y % (64*displaySize) == 0) ? 3 : 1));
+            graphics.drawLine(0, y, image.getWidth(), y);
+            y += 8*displaySize;
+        }
+        graphics.drawLine(0, y-1, image.getWidth(), y-1);
+        graphics.dispose();
+    }
+    
     private BufferedImage resize(BufferedImage image) {
         BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
         Graphics g = newImage.getGraphics();
@@ -108,4 +131,9 @@ public class InvocationGraphicLayout extends JPanel {
         this.displaySize = displaySize;
         this.revalidate();
     }
+
+    public void setShowGrid(boolean showGrid) {
+        this.showGrid = showGrid;
+        this.revalidate();
+    } 
 }
