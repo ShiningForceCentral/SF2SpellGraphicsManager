@@ -38,15 +38,14 @@ public class InvocationGraphicLayout extends JPanel {
     }
     
     public static BufferedImage buildImage(InvocationGraphic invocationGraphic, boolean pngExport) {
-        return null;
-        /*int blockColumnsNumber = (battlespriteType == BattleSprite.TYPE_ALLY) ? 3 : 4;
-        int blockRowNumber = (battlespriteType == BattleSprite.TYPE_INVOCATION) ? 2 : 3;
-        int imageHeight = blockRowNumber*4*8;
+        
+        int frames = invocationGraphic.getFrames().length;
+        int imageWidth = 4*4*8;
+        int imageHeight = frames*2*4*8;
         BufferedImage image;
-        IndexColorModel icm = buildIndexColorModel(tiles[0].getPalette());
-        image = new BufferedImage(tilesPerRow*8, imageHeight , BufferedImage.TYPE_BYTE_BINARY, icm);
+        image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = image.getGraphics();
-        for(int frame=0;frame<(tiles.length/(blockColumnsNumber*4*blockRowNumber*4));frame++){*/
+        for(int f = 0; f < frames; f++) {
             /*
                 1  5  9 13 49 53                  
                 2  6 10 14 50  .                  
@@ -61,14 +60,15 @@ public class InvocationGraphicLayout extends JPanel {
                35 39 43 47                  . 143
                36 40 44 48                140 144
             */
-            /*int index = 0;
-            for(int blockColumn=0;blockColumn<blockColumnsNumber;blockColumn++){
-                for(int blockRow=0;blockRow<blockRowNumber;blockRow++){
-                    for(int tileColumn=0;tileColumn<4;tileColumn++){
-                        for(int tileRow=0;tileRow<4;tileRow++){
+            Tile[] frameTiles = invocationGraphic.getFrames()[f];
+            int index = 0;
+            for(int blockColumn = 0; blockColumn < 4; blockColumn++) {
+                for(int blockRow = 0; blockRow < 2; blockRow++) {
+                    for(int tileColumn = 0; tileColumn < 4; tileColumn++) {
+                        for(int tileRow = 0; tileRow < 4; tileRow++) {
                             int x = (blockColumn*4+tileColumn)*8;
-                            int y = (frame*blockRowNumber*4+blockRow*4+tileRow)*8;
-                            graphics.drawImage(tiles[index].getImage(), x, y, null);
+                            int y = (f*2*4+blockRow*4+tileRow)*8;
+                            graphics.drawImage(frameTiles[index].getIndexedColorImage(), x, y, null);
                             index++;
                         }
                     }
@@ -76,7 +76,7 @@ public class InvocationGraphicLayout extends JPanel {
             }
         }
         graphics.dispose();
-        return image;*/
+        return image;
     }
     
     private BufferedImage resize(BufferedImage image) {
