@@ -62,7 +62,7 @@ public class InvocationDisassemblyManager {
                         byte[] tileData = new byte[dataLength];
                         System.arraycopy(data, frameOffset, tileData, 0, dataLength);
                         Tile[] frame = new StackGraphicsDecoder().decodeStackGraphics(tileData, palette);
-                        frameList[i] = ReorderTilesSequentially(frame);
+                        frameList[i] = reorderTilesSequentially(frame);
                         System.out.println("Frame "+i+" length="+dataLength+", offset="+frameOffset+", tiles="+frameList[i].length);
                     }
                     invocationGraphic.setFrames(frameList);
@@ -96,7 +96,7 @@ public class InvocationDisassemblyManager {
                 short[] frameOffsets = new short[frames.length];
                 int totalFramesSize = 0;
                 for (int i = 0; i < frames.length; i++) {
-                    Tile[] tiles = ReorderTilesForDisasssembly(frames[i]);
+                    Tile[] tiles = reorderTilesForDisasssembly(frames[i]);
                     StackGraphicsEncoder.produceGraphics(tiles);
                     frameBytes[i] = StackGraphicsEncoder.getNewGraphicsFileBytes();
                     if (i == 0) {
@@ -136,7 +136,7 @@ public class InvocationDisassemblyManager {
         System.out.println("com.sfc.sf2.spellGraphic.io.InvocationDisassemblyManager.exportDisassembly() - Disassembly exported.");        
     }
     
-    private static Tile[] ReorderTilesSequentially(Tile[] tiles) {
+    private static Tile[] reorderTilesSequentially(Tile[] tiles) {
         /* Disassembly tiles are stored in 4x4 chunks (top-bottom, left-right)
             1  5  9 13 33 37                  
             2  6 10 14 34  .                  
@@ -158,7 +158,7 @@ public class InvocationDisassemblyManager {
         return newTiles;
     }
     
-    private static Tile[] ReorderTilesForDisasssembly(Tile[] tiles) {
+    private static Tile[] reorderTilesForDisasssembly(Tile[] tiles) {
         
         Tile[] newTiles = new Tile[tiles.length];
         for (int i = 0; i < tiles.length; i++) {

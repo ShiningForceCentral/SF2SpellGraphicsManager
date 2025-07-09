@@ -69,18 +69,20 @@ public class InvocationGraphicLayout extends JPanel {
             graphics.drawLine(x, 0, x, image.getHeight());
             x += 8*displaySize;
         }
-        graphics.setStroke(new BasicStroke(3));
         graphics.drawLine(x-1, 0, x-1, image.getHeight());
         while (y < image.getHeight()) {
             graphics.setStroke(new BasicStroke((y % (64*displaySize) == 0) ? 3 : 1));
             graphics.drawLine(0, y, image.getWidth(), y);
             y += 8*displaySize;
         }
+        graphics.setStroke(new BasicStroke(3));
         graphics.drawLine(0, y-1, image.getWidth(), y-1);
         graphics.dispose();
     }
     
     private BufferedImage resize(BufferedImage image) {
+        if (displaySize == 1)
+            return image;
         BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
         Graphics g = newImage.getGraphics();
         g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
@@ -113,5 +115,5 @@ public class InvocationGraphicLayout extends JPanel {
     public void setShowGrid(boolean showGrid) {
         this.showGrid = showGrid;
         this.revalidate();
-    } 
+    }
 }
