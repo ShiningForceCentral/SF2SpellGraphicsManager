@@ -78,6 +78,8 @@ public class SpellGraphicLayout extends JPanel {
     }
     
     private BufferedImage resize(BufferedImage image) {
+        if (displaySize == 1)
+            return image;
         BufferedImage newImage = new BufferedImage(image.getWidth()*displaySize, image.getHeight()*displaySize, BufferedImage.TYPE_INT_ARGB);
         Graphics g = newImage.getGraphics();
         g.drawImage(image, 0, 0, image.getWidth()*displaySize, image.getHeight()*displaySize, null);
