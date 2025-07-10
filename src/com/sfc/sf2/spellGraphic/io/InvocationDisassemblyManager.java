@@ -147,26 +147,37 @@ public class InvocationDisassemblyManager {
            19 23 27 31                  . 127
            20 24 28 32                124 128
         */
+        // \/ Edit these variables \/
+        int blockColumnCount = 4;
+        int blockRowCount = 2;
+        int tilesPerBlock = 4;
+        // /\ Edit these variables /\
+        int blockTotalTiles = tilesPerBlock*tilesPerBlock;
         Tile[] newTiles = new Tile[tiles.length];
         for (int i = 0; i < tiles.length; i++) {
-            int blockColumn = (i/4) % 4;
-            int blockRow = i/64;
-            int tileColumn = i%4;
-            int tileRow = (i/16) % 4;
-            newTiles[i] = tiles[blockColumn*32 + blockRow*16 + tileColumn*4 + tileRow];
+            int bc = (i/tilesPerBlock) % blockColumnCount;
+            int br = i/(blockColumnCount*blockTotalTiles);
+            int tc = i%tilesPerBlock;
+            int tr = (i/(tilesPerBlock*blockColumnCount)) % tilesPerBlock;
+            newTiles[i] = tiles[bc*(blockTotalTiles*blockRowCount) + br*blockTotalTiles + tc*tilesPerBlock + tr];
         }
         return newTiles;
     }
     
     private static Tile[] reorderTilesForDisasssembly(Tile[] tiles) {
-        
+        // \/ Edit these variables \/
+        int blockColumnCount = 4;
+        int blockRowCount = 2;
+        int tilesPerBlock = 4;
+        // /\ Edit these variables /\
+        int blockTotalTiles = tilesPerBlock*tilesPerBlock;
         Tile[] newTiles = new Tile[tiles.length];
         for (int i = 0; i < tiles.length; i++) {
-            int blockColumn = (i/4) % 4;
-            int blockRow = i/64;
-            int tileColumn = i%4;
-            int tileRow = (i/16) % 4;
-            newTiles[blockColumn*32 + blockRow*16 + tileColumn*4 + tileRow] = tiles[i];
+            int bc = (i/tilesPerBlock) % blockColumnCount;
+            int br = i/(blockColumnCount*blockTotalTiles);
+            int tc = i%tilesPerBlock;
+            int tr = (i/(tilesPerBlock*blockColumnCount)) % tilesPerBlock;
+            newTiles[bc*(blockTotalTiles*blockRowCount) + br*blockTotalTiles + tc*tilesPerBlock + tr] = tiles[i];
         }
         return newTiles;
     }

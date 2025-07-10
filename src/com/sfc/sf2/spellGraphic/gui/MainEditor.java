@@ -45,7 +45,7 @@ public class MainEditor extends javax.swing.JFrame {
             initConsole(jTextArea1);
             System.setProperty("java.util.logging.SimpleFormatter.format",
                     "%2$s - %5$s%6$s%n");
-            initLogger("com.sfc.sf2.graphics", Level.WARNING);
+            initLogger("com.sfc.sf2.spellGraphics", Level.WARNING);
             File workingDirectory = new File(MainEditor.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
             System.setProperty("user.dir", workingDirectory.toString());
             jFileChooser1.setCurrentDirectory(workingDirectory);
