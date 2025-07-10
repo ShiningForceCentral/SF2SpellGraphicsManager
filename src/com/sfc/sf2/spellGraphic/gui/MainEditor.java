@@ -1673,6 +1673,11 @@ public class MainEditor extends javax.swing.JFrame {
     private void repaintTilesPanel() {
         jPanel2.revalidate();
         jPanel2.repaint();
+        if (jPanel16.isVisible()) {
+            jPanel2.setSize(spellGraphicLayout.getSize());
+        } else {
+            jPanel2.setSize(invocationGraphicLayout.getSize());
+        }
     }
     
     private void updateSpellPaletteColor(int index, Color newColor) {
