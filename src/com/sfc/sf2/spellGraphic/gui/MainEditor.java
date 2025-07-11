@@ -1586,7 +1586,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jSpinner1StateChanged
 
     private void jPanelColor14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColor14MouseClicked
-        Color returnCol = jColorChooser1.showDialog(this, "Color 14", jPanelColor14.getBackground(), false);
+        Color returnCol = jColorChooser1.showDialog(this, "Color 14", jPanelColor14.getBackground());
         if (returnCol != null) {
             jPanelColor14.setBackground(returnCol);
             updateSpellPaletteColor(14, returnCol);
@@ -1594,7 +1594,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanelColor14MouseClicked
 
     private void jPanelColor13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColor13MouseClicked
-        Color returnCol = jColorChooser1.showDialog(this, "Color 13", jPanelColor13.getBackground(), false);
+        Color returnCol = jColorChooser1.showDialog(this, "Color 13", jPanelColor13.getBackground());
         if (returnCol != null) {
             jPanelColor13.setBackground(returnCol);
             updateSpellPaletteColor(13, returnCol);
@@ -1602,7 +1602,7 @@ public class MainEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanelColor13MouseClicked
 
     private void jPanelColor9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColor9MouseClicked
-        Color returnCol = jColorChooser1.showDialog(this, "Color 9", jPanelColor9.getBackground(), false);
+        Color returnCol = jColorChooser1.showDialog(this, "Color 9", jPanelColor9.getBackground());
         if (returnCol != null) {
             jPanelColor9.setBackground(returnCol);
             updateSpellPaletteColor(9, returnCol);

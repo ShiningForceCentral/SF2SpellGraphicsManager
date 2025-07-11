@@ -52,7 +52,7 @@ public class RawImageManager {
                 String metaPath = filepath + ".meta";
                 File inputFile = new File(metaPath);
                 if (inputFile.exists()) {
-                    BufferedReader reader = new BufferedReader(new FileReader(inputFile, Charset.defaultCharset()));
+                    BufferedReader reader = new BufferedReader(new FileReader(inputFile));
                     String data = reader.readLine();
                     data = data.substring(data.indexOf(":")+1).trim();
                     invocationGraphic.setUnknown1(Short.parseShort(data));
@@ -87,7 +87,7 @@ public class RawImageManager {
             sb.append("Unknown 2: " + invocationGraphic.getUnknown2() + "\n");
             sb.append("Unknown 3: " + invocationGraphic.getUnknown3() + "\n");
             File outputfile = new File(metaPath);
-            FileWriter writer = new FileWriter(outputfile, Charset.defaultCharset(), false);
+            FileWriter writer = new FileWriter(outputfile, false);
             writer.write(sb.toString());
             writer.close();
             System.out.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.exportImage() - image files and palettes exported.");
