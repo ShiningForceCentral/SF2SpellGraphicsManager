@@ -8,6 +8,7 @@ package com.sfc.sf2.spellGraphic.io;
 import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
+import com.sfc.sf2.graphics.io.DisassemblyManager;
 import com.sfc.sf2.palette.graphics.PaletteDecoder;
 import com.sfc.sf2.palette.graphics.PaletteEncoder;
 import com.sfc.sf2.spellGraphic.InvocationGraphic;
@@ -62,7 +63,7 @@ public class InvocationDisassemblyManager {
                         byte[] tileData = new byte[dataLength];
                         System.arraycopy(data, frameOffset, tileData, 0, dataLength);
                         Tile[] frame = new StackGraphicsDecoder().decodeStackGraphics(tileData, palette);
-                        frameList[i] = reorderTilesSequentially(frame);
+                        frameList[i] = DisassemblyManager.reorderTilesSequentially(frame, 4, 2, 4);
                         System.out.println("Frame "+i+" length="+dataLength+", offset="+frameOffset+", tiles="+frameList[i].length);
                     }
                     invocationGraphic.setFrames(frameList);
@@ -96,7 +97,7 @@ public class InvocationDisassemblyManager {
                 short[] frameOffsets = new short[frames.length];
                 int totalFramesSize = 0;
                 for (int i = 0; i < frames.length; i++) {
-                    Tile[] tiles = reorderTilesForDisasssembly(frames[i]);
+                    Tile[] tiles = DisassemblyManager.reorderTilesForDisasssembly(frames[i], 4, 2, 4);
                     StackGraphicsEncoder.produceGraphics(tiles);
                     frameBytes[i] = StackGraphicsEncoder.getNewGraphicsFileBytes();
                     if (i == 0) {
@@ -134,52 +135,6 @@ public class InvocationDisassemblyManager {
             System.out.println(ex);
         }  
         System.out.println("com.sfc.sf2.spellGraphic.io.InvocationDisassemblyManager.exportDisassembly() - Disassembly exported.");        
-    }
-    
-    private static Tile[] reorderTilesSequentially(Tile[] tiles) {
-        /* Disassembly tiles are stored in 4x4 chunks (top-bottom, left-right)
-            1  5  9 13 33 37                  
-            2  6 10 14 34  .                  
-            3  7 11 15 35  .                  
-            4  8 12 16 36  .                  
-           17 21 25 29                  . 125
-           18 22 26 30                  . 126
-           19 23 27 31                  . 127
-           20 24 28 32                124 128
-        */
-        // \/ Edit these variables \/
-        int blockColumnCount = 4;
-        int blockRowCount = 2;
-        int tilesPerBlock = 4;
-        // /\ Edit these variables /\
-        int blockTotalTiles = tilesPerBlock*tilesPerBlock;
-        Tile[] newTiles = new Tile[tiles.length];
-        for (int i = 0; i < tiles.length; i++) {
-            int bc = (i/tilesPerBlock) % blockColumnCount;
-            int br = i/(blockColumnCount*blockTotalTiles);
-            int tc = i%tilesPerBlock;
-            int tr = (i/(tilesPerBlock*blockColumnCount)) % tilesPerBlock;
-            newTiles[i] = tiles[bc*(blockTotalTiles*blockRowCount) + br*blockTotalTiles + tc*tilesPerBlock + tr];
-        }
-        return newTiles;
-    }
-    
-    private static Tile[] reorderTilesForDisasssembly(Tile[] tiles) {
-        // \/ Edit these variables \/
-        int blockColumnCount = 4;
-        int blockRowCount = 2;
-        int tilesPerBlock = 4;
-        // /\ Edit these variables /\
-        int blockTotalTiles = tilesPerBlock*tilesPerBlock;
-        Tile[] newTiles = new Tile[tiles.length];
-        for (int i = 0; i < tiles.length; i++) {
-            int bc = (i/tilesPerBlock) % blockColumnCount;
-            int br = i/(blockColumnCount*blockTotalTiles);
-            int tc = i%tilesPerBlock;
-            int tr = (i/(tilesPerBlock*blockColumnCount)) % tilesPerBlock;
-            newTiles[bc*(blockTotalTiles*blockRowCount) + br*blockTotalTiles + tc*tilesPerBlock + tr] = tiles[i];
-        }
-        return newTiles;
     }
     
     private static short getNextWord(byte[] data, int cursor){
