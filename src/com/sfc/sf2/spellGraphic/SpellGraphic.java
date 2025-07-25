@@ -6,7 +6,7 @@
 package com.sfc.sf2.spellGraphic;
 
 import com.sfc.sf2.graphics.Tile;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 
 /**
  *
@@ -16,7 +16,7 @@ public class SpellGraphic {
         
     private Tile[] tiles;
     
-    Color[] palette;
+    Palette palette;
 
     public Tile[] getTiles() {
         return tiles;
@@ -26,11 +26,11 @@ public class SpellGraphic {
         this.tiles = tiles;
     }
 
-    public Color[] getPalette() {
+    public Palette getPalette() {
         return palette;
     }
 
-    public void setPalette(Color[] palette) {
+    public void setPalette(Palette palette) {
         this.palette = palette;
     }
 }

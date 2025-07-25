@@ -6,6 +6,7 @@
 package com.sfc.sf2.spellGraphic;
 
 import com.sfc.sf2.graphics.GraphicsManager;
+import com.sfc.sf2.palette.Palette;
 import com.sfc.sf2.spellGraphic.io.SpellDisassemblyManager;
 import com.sfc.sf2.palette.PaletteManager;
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class SpellGraphicManager {
        
     private PaletteManager paletteManager = new PaletteManager();
     private GraphicsManager graphicsManager = new GraphicsManager();
-    private Color[] defaultPalette;
+    private Palette defaultPalette;
     private SpellGraphic spellGraphic;
 
     public void importDisassembly(String filepath, String defaultPalettePath) {
@@ -45,7 +46,7 @@ public class SpellGraphicManager {
         graphicsManager.importPng(filepath);
         spellGraphic = new SpellGraphic();
         spellGraphic.setTiles(graphicsManager.getTiles());
-        Color[] palette = spellGraphic.getTiles()[0].getPalette();
+        Palette palette = spellGraphic.getTiles()[0].getPalette();
         adjustImportedPalette(defaultPalette, palette);
         spellGraphic.setPalette(palette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importPng() - PNG imported.");
@@ -66,7 +67,7 @@ public class SpellGraphicManager {
         graphicsManager.importGif(filepath);
         spellGraphic = new SpellGraphic();
         spellGraphic.setTiles(graphicsManager.getTiles());
-        Color[] palette = spellGraphic.getTiles()[0].getPalette();
+        Palette palette = spellGraphic.getTiles()[0].getPalette();
         adjustImportedPalette(defaultPalette, palette);
         spellGraphic.setPalette(palette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importGif() - GIF imported.");
@@ -84,10 +85,10 @@ public class SpellGraphicManager {
         defaultPalette = paletteManager.getPalette();
     }
     
-    private static void adjustImportedPalette(Color[] defaultPalette, Color[] importedPalette) {
-        for (int i = 0; i < defaultPalette.length; i++) {
+    private static void adjustImportedPalette(Palette defaultPalette, Palette importedPalette) {
+        for (int i = 0; i < defaultPalette.getColors().length; i++) {
             if (i != 9 && i != 13 && i != 14)
-                importedPalette[i] = defaultPalette[i];
+                importedPalette.getColors()[i] = defaultPalette.getColors()[i];
         }
     }
     
@@ -114,7 +115,7 @@ public class SpellGraphicManager {
         this.spellGraphic = spellGraphic;
     }
 
-    public Color[] getDefaultPalette() {
+    public Palette getDefaultPalette() {
         return defaultPalette;
     }
 }

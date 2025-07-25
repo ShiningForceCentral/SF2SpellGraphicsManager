@@ -6,7 +6,7 @@
 package com.sfc.sf2.spellGraphic;
 
 import com.sfc.sf2.graphics.Tile;
-import java.awt.Color;
+import com.sfc.sf2.palette.Palette;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.awt.Color;
 public class InvocationGraphic {
 
     private Tile[][] frames;
-    private Color[] palette;
+    private Palette palette;
     private short unknown1;
     private short unknown2;
     private short unknown3;
@@ -28,11 +28,11 @@ public class InvocationGraphic {
         this.frames = frames;
     }
 
-    public Color[]getPalette() {
+    public Palette getPalette() {
         return palette;
     }
 
-    public void setPalette(Color[] palette) {
+    public void setPalette(Palette palette) {
         this.palette = palette;
     }
 

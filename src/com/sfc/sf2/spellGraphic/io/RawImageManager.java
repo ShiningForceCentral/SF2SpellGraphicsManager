@@ -6,8 +6,8 @@
 package com.sfc.sf2.spellGraphic.io;
 
 import com.sfc.sf2.graphics.Tile;
+import com.sfc.sf2.palette.Palette;
 import com.sfc.sf2.spellGraphic.InvocationGraphic;
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -28,7 +28,7 @@ public class RawImageManager {
         InvocationGraphic invocationGraphic = null;
         try {
             List<Tile[]> frames = new ArrayList<Tile[]>();
-            Color[] palette = null;
+            Palette palette = null;
             String dir = filepath.substring(0, filepath.lastIndexOf(System.getProperty("file.separator")));
             String pattern = filepath.substring(filepath.lastIndexOf(System.getProperty("file.separator"))+1);
             File directory = new File(dir);

@@ -9,10 +9,10 @@ import com.sfc.sf2.graphics.Tile;
 import com.sfc.sf2.graphics.compressed.StackGraphicsDecoder;
 import com.sfc.sf2.graphics.compressed.StackGraphicsEncoder;
 import com.sfc.sf2.graphics.io.DisassemblyManager;
+import com.sfc.sf2.palette.Palette;
 import com.sfc.sf2.palette.graphics.PaletteDecoder;
 import com.sfc.sf2.palette.graphics.PaletteEncoder;
 import com.sfc.sf2.spellGraphic.InvocationGraphic;
-import java.awt.Color;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
@@ -49,7 +49,9 @@ public class InvocationDisassemblyManager {
                     int palettesOffset = getNextWord(data, 6) + 6;
                     byte[] paletteData = new byte[32];
                     System.arraycopy(data, palettesOffset, paletteData, 0, paletteData.length);
-                    Color[] palette = PaletteDecoder.parsePalette(paletteData);
+                    String paletteName = path.getFileName().toString();
+                    paletteName = paletteName.substring(0, paletteName.lastIndexOf("."));
+                    Palette palette = new Palette(paletteName, PaletteDecoder.parsePalette(paletteData));
                     invocationGraphic.setPalette(palette);
                     
                     int[] frameOffsets = new int[(palettesOffset-8) / 2];
@@ -86,9 +88,9 @@ public class InvocationDisassemblyManager {
                 short unknown2 = invocationGraphic.getUnknown2();
                 short unknown3 = invocationGraphic.getUnknown3();
                 
-                Color[] palette = invocationGraphic.getPalette();
+                Palette palette = invocationGraphic.getPalette();
                 byte[] paletteBytes;
-                PaletteEncoder.producePalette(palette);
+                PaletteEncoder.producePalette(palette.getColors());
                 paletteBytes = PaletteEncoder.getNewPaletteFileBytes();
                 short paletteOffset = (short)(invocationGraphic.getFrames().length*2 + 2);
                 
@@ -111,7 +113,7 @@ public class InvocationDisassemblyManager {
                     totalFramesSize += frameBytes[i].length;
                 }
                 
-                int totalSize = 8 + frames.length * 2 + palette.length * 32 + totalFramesSize;
+                int totalSize = 8 + frames.length * 2 + palette.getColors().length * 32 + totalFramesSize;
                 byte[] newBattleSpriteFileBytes = new byte[totalSize];
                 setWord(newBattleSpriteFileBytes, 0, unknown1);
                 setWord(newBattleSpriteFileBytes, 2, unknown2);

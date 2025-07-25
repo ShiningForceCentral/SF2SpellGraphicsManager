@@ -1644,9 +1644,10 @@ public class MainEditor extends javax.swing.JFrame {
             spellGraphicLayout.setDisplaySize(jComboBox1.getSelectedIndex()+1);
             SpellGraphic spellGraphic = spellGraphicLayout.getSpellGraphic();
             if (spellGraphic != null) {
-                jPanelColor9.setBackground(spellGraphic.getPalette()[9]);
-                jPanelColor13.setBackground(spellGraphic.getPalette()[13]);
-                jPanelColor14.setBackground(spellGraphic.getPalette()[14]);
+                Color[] colors = spellGraphic.getPalette().getColors();
+                jPanelColor9.setBackground(colors[9]);
+                jPanelColor13.setBackground(colors[13]);
+                jPanelColor14.setBackground(colors[14]);
             }
             jPanel16.setVisible(true);
             jPanel30.setVisible(false);
@@ -1682,13 +1683,13 @@ public class MainEditor extends javax.swing.JFrame {
     
     private void updateSpellPaletteColor(int index, Color newColor) {
         SpellGraphic spellGraphic = spellGraphicLayout.getSpellGraphic();
-        if (spellGraphic != null) {
-            if (!spellGraphic.getPalette()[index].equals(newColor)) {
-                spellGraphic.getPalette()[index] = newColor;
+        if (spellGraphic != null && spellGraphic.getPalette() != null) {
+            Color[] colors = spellGraphic.getPalette().getColors();
+            if (!colors[index].equals(newColor)) {
+                colors[index] = newColor;
                 Tile[] tiles = spellGraphic.getTiles();
                 for (int i = 0; i < tiles.length; i++) {
                     tiles[i].clearIndexedColorImage();
-                    tiles[i].generateIcm();
                 }
                 spellGraphicLayout.revalidate();
                 spellGraphicLayout.repaint();
