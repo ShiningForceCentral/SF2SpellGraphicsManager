@@ -9,7 +9,6 @@ import com.sfc.sf2.graphics.GraphicsManager;
 import com.sfc.sf2.palette.Palette;
 import com.sfc.sf2.spellGraphic.io.SpellDisassemblyManager;
 import com.sfc.sf2.palette.PaletteManager;
-import java.awt.Color;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -19,8 +18,8 @@ import java.nio.file.Paths;
  */
 public class SpellGraphicManager {
        
-    private PaletteManager paletteManager = new PaletteManager();
-    private GraphicsManager graphicsManager = new GraphicsManager();
+    private final PaletteManager paletteManager = new PaletteManager();
+    private final GraphicsManager graphicsManager = new GraphicsManager();
     private Palette defaultPalette;
     private SpellGraphic spellGraphic;
 
@@ -46,9 +45,8 @@ public class SpellGraphicManager {
         graphicsManager.importPng(filepath);
         spellGraphic = new SpellGraphic();
         spellGraphic.setTiles(graphicsManager.getTiles());
-        Palette palette = spellGraphic.getTiles()[0].getPalette();
+        Palette palette = spellGraphic.getPalette();
         adjustImportedPalette(defaultPalette, palette);
-        spellGraphic.setPalette(palette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importPng() - PNG imported.");
     }
     
@@ -67,9 +65,8 @@ public class SpellGraphicManager {
         graphicsManager.importGif(filepath);
         spellGraphic = new SpellGraphic();
         spellGraphic.setTiles(graphicsManager.getTiles());
-        Palette palette = spellGraphic.getTiles()[0].getPalette();
+        Palette palette = spellGraphic.getPalette();
         adjustImportedPalette(defaultPalette, palette);
-        spellGraphic.setPalette(palette);
         System.out.println("com.sfc.sf2.spellGraphic.SpellGraphicManager.importGif() - GIF imported.");
     }
     
@@ -81,8 +78,10 @@ public class SpellGraphicManager {
     }
     
     private void importDefaultPalette(String palettePath) {        
-        paletteManager.importDisassembly(palettePath);
-        defaultPalette = paletteManager.getPalette();
+        if (defaultPalette == null) {
+            paletteManager.importDisassembly(palettePath);
+            defaultPalette = paletteManager.getPalette();
+        }
     }
     
     private static void adjustImportedPalette(Palette defaultPalette, Palette importedPalette) {

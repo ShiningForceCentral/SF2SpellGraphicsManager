@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sfc.sf2.invocationGraphic;
+package com.sfc.sf2.spellGraphic;
 
-import com.sfc.sf2.graphics.GraphicsManager;
-import com.sfc.sf2.spellGraphic.InvocationGraphic;
 import com.sfc.sf2.spellGraphic.io.InvocationDisassemblyManager;
-import com.sfc.sf2.spellGraphic.io.RawImageManager;
-import java.awt.Color;
+import com.sfc.sf2.spellGraphic.io.InvocationRawImageManager;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -38,27 +35,27 @@ public class InvocationGraphicManager {
     public void importPng(String filepath, String defaultPalettePath) {
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.importPng() - Importing PNG ...");
         filepath = getAbsoluteFilepath(filepath);
-        invocationGraphic = RawImageManager.importImage(filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_PNG);
+        invocationGraphic = InvocationRawImageManager.importImage(filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_PNG);
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.importPng() - PNG imported.");
     }
     
     public void exportPng(String filepath) {
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.exportPng() - Exporting PNG ...");
         filepath = getAbsoluteFilepath(filepath);
-        RawImageManager.exportImage(invocationGraphic, filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_PNG);
+        InvocationRawImageManager.exportImage(invocationGraphic, filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_PNG);
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.exportPng() - PNG exported.");       
     }
         
     public void importGif(String filepath, String defaultPalettePath) {
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.importGif() - Importing GIF ...");
         filepath = getAbsoluteFilepath(filepath);
-        invocationGraphic = RawImageManager.importImage(filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_GIF);
+        invocationGraphic = InvocationRawImageManager.importImage(filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_GIF);
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.importGif() - GIF imported.");
     }
     
     public void exportGif(String filepath) {
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.exportGif() - Exporting GIF ...");
-        RawImageManager.exportImage(invocationGraphic, filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_GIF);
+        InvocationRawImageManager.exportImage(invocationGraphic, filepath, com.sfc.sf2.graphics.io.RawImageManager.FILE_FORMAT_GIF);
         System.out.println("com.sfc.sf2.invocationGraphic.InvocationGraphicManager.exportGif() - GIF exported.");       
     }
     

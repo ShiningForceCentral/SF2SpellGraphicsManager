@@ -38,7 +38,7 @@ public class SpellDisassemblyManager {
                 if(data.length>42){
                     byte[] colorData = new byte[6];
                     System.arraycopy(data, 2, colorData, 0, 6);
-                    Color[] swapColors = PaletteDecoder.parsePalette(colorData);
+                    Color[] swapColors = PaletteDecoder.parsePalette(colorData, false);
                     Color[] paletteColors = new Color[defaultPalette.getColors().length];
                     System.arraycopy(defaultPalette.getColors(), 0, paletteColors, 0, paletteColors.length);
                     paletteColors[9] = swapColors[0];
@@ -52,7 +52,6 @@ public class SpellDisassemblyManager {
                     System.arraycopy(data, 8, tileData, 0, tileData.length);
                     Tile[] tiles = new StackGraphicsDecoder().decodeStackGraphics(tileData, palette);
                     
-                    spellGraphic.setPalette(palette);
                     spellGraphic.setTiles(tiles);
                 }else{
                     System.out.println("com.sfc.sf2.spellGraphic.io.spellDisassemblyManager.parseGraphics() - File ignored because of too small length (must be a dummy file) " + data.length + " : " + filepath);

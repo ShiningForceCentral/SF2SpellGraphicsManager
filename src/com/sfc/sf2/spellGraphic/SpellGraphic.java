@@ -15,8 +15,6 @@ import com.sfc.sf2.palette.Palette;
 public class SpellGraphic {
         
     private Tile[] tiles;
-    
-    Palette palette;
 
     public Tile[] getTiles() {
         return tiles;
@@ -27,10 +25,9 @@ public class SpellGraphic {
     }
 
     public Palette getPalette() {
-        return palette;
-    }
-
-    public void setPalette(Palette palette) {
-        this.palette = palette;
+        if (tiles == null || tiles.length == 0) {
+            return null;
+        }
+        return tiles[0].getPalette();
     }
 }

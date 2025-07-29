@@ -9,8 +9,9 @@ import com.sfc.sf2.spellGraphic.SpellGraphic;
 import com.sfc.sf2.spellGraphic.SpellGraphicManager;
 import com.sfc.sf2.spellGraphic.layout.SpellGraphicLayout;
 import com.sfc.sf2.graphics.Tile;
-import com.sfc.sf2.invocationGraphic.InvocationGraphicManager;
+import com.sfc.sf2.palette.Palette;
 import com.sfc.sf2.spellGraphic.InvocationGraphic;
+import com.sfc.sf2.spellGraphic.InvocationGraphicManager;
 import com.sfc.sf2.spellGraphic.layout.InvocationGraphicLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -1683,16 +1684,20 @@ public class MainEditor extends javax.swing.JFrame {
     
     private void updateSpellPaletteColor(int index, Color newColor) {
         SpellGraphic spellGraphic = spellGraphicLayout.getSpellGraphic();
-        if (spellGraphic != null && spellGraphic.getPalette() != null) {
-            Color[] colors = spellGraphic.getPalette().getColors();
-            if (!colors[index].equals(newColor)) {
-                colors[index] = newColor;
-                Tile[] tiles = spellGraphic.getTiles();
-                for (int i = 0; i < tiles.length; i++) {
-                    tiles[i].clearIndexedColorImage();
+        if (spellGraphic != null) {
+            Palette palette = spellGraphic.getPalette();
+            if (palette != null) {
+                Color[] colors = spellGraphic.getPalette().getColors();
+                if (!colors[index].equals(newColor)) {
+                    colors[index] = newColor;
+                    Tile[] tiles = spellGraphic.getTiles();
+                    for (int i = 0; i < tiles.length; i++) {
+                        tiles[i].clearIndexedColorImage();
+                    }
+                    palette.setColors(colors);
+                    spellGraphicLayout.revalidate();
+                    spellGraphicLayout.repaint();
                 }
-                spellGraphicLayout.revalidate();
-                spellGraphicLayout.repaint();
             }
         }
     }

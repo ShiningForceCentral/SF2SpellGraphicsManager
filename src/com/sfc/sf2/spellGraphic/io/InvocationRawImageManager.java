@@ -21,10 +21,10 @@ import java.util.logging.Logger;
  *
  * @author wiz
  */
-public class RawImageManager {
+public class InvocationRawImageManager {
     
     public static InvocationGraphic importImage(String filepath, int fileFormat) {
-        System.out.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.importImage() - Importing image files ...");
+        System.out.println("com.sfc.sf2.spellGraphic.io.InvocationRawImageManager.importImage() - Importing image files ...");
         InvocationGraphic invocationGraphic = null;
         try {
             List<Tile[]> frames = new ArrayList<Tile[]>();
@@ -33,7 +33,7 @@ public class RawImageManager {
             String pattern = filepath.substring(filepath.lastIndexOf(System.getProperty("file.separator"))+1);
             File directory = new File(dir);
             File[] files = directory.listFiles();
-            for (File f : files) {
+            for (File f : files) { 
                 if (f.getName().startsWith(pattern + "-frame") && f.getName().endsWith(com.sfc.sf2.graphics.io.RawImageManager.GetFileExtensionString(fileFormat))) {
                     Tile[] frame = com.sfc.sf2.graphics.io.RawImageManager.importImage(f.getAbsolutePath());
                     palette = frame[0].getPalette();
@@ -41,9 +41,9 @@ public class RawImageManager {
                 }
             }
             if (frames.isEmpty()) {
-                System.err.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.importImage() - ERROR : no frame imported. Image files missing for this pattern ?");
+                System.err.println("com.sfc.sf2.spellGraphic.io..importImage() - ERROR : no frame imported. Image files missing for this pattern ?");
             } else {
-                System.out.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.importImage() - " + frames.size() + " : " + frames);
+                System.out.println("com.sfc.sf2.spellGraphic.io..importImage() - " + frames.size() + " : " + frames);
                 invocationGraphic = new InvocationGraphic();
                 invocationGraphic.setFrames(frames.toArray(new Tile[frames.size()][]));
                 invocationGraphic.setPalette(palette);
@@ -65,19 +65,19 @@ public class RawImageManager {
                 }
             }
         } catch(Exception e) {
-             System.err.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.importImage() - Error while parsing graphics data : "+e);
+             System.err.println("com.sfc.sf2.spellGraphic.io..importImage() - Error while parsing graphics data : "+e);
              e.printStackTrace();
         }        
-        System.out.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.importImage() - image files imported.");
+        System.out.println("com.sfc.sf2.spellGraphic.io..importImage() - image files imported.");
         return invocationGraphic;                
     }
     
     public static void exportImage(InvocationGraphic invocationGraphic, String filepath, int fileFormat) {
         try {
-            System.out.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.exportImage() - Exporting image files and palettes ...");
+            System.out.println("com.sfc.sf2.spellGraphic.io..exportImage() - Exporting image files and palettes ...");
             Tile[][] frames = invocationGraphic.getFrames();
             for(int i=0;i<frames.length;i++){
-                String framePath = filepath + "-frame-" + String.valueOf(i) + "." + com.sfc.sf2.graphics.io.RawImageManager.GetFileExtensionString(fileFormat);
+                String framePath = filepath + "-frame-" + String.format("%02d", i) + "." + com.sfc.sf2.graphics.io.RawImageManager.GetFileExtensionString(fileFormat);
                 com.sfc.sf2.graphics.io.RawImageManager.exportImage(frames[i], framePath, 16, fileFormat);
             }
             String metaPath = filepath + ".meta";
@@ -89,9 +89,9 @@ public class RawImageManager {
             FileWriter writer = new FileWriter(outputfile, false);
             writer.write(sb.toString());
             writer.close();
-            System.out.println("com.sfc.sf2.invocationGraphic.io.RawImageManager.exportImage() - image files and palettes exported.");
+            System.out.println("com.sfc.sf2.spellGraphic.io.RawImageManager.exportImage() - image files and palettes exported.");
         } catch (Exception ex) {
-            Logger.getLogger(RawImageManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InvocationRawImageManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
